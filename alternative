@@ -1,0 +1,20 @@
+import pandas as pd
+import csv
+
+intent=u'intent'
+utterance=u'Utterance'
+response=u'Response'
+
+
+#
+# Load in the logs
+#
+
+df_log = pd.read_csv( "log_human_jan_thru_sept.csv", quoting=csv.QUOTE_ALL, encoding='utf-8')
+
+df_log = df_log[ df_log[utterance].notnull() ]
+df_log = df_log[ df_log[response].notnull() ]
+df_log = df_log[ [ utterance, response ] ]
+
+ans = df_log.loc[0,response]
+this_df = df_log[ df_log[response].str.contains( ans, regex=False) ].reset_index( drop=True )
